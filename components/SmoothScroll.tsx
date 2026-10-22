@@ -9,9 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Lenis drives the scroll position; GSAP's ticker feeds it frames so ScrollTrigger stays in sync.
 export default function SmoothScroll() {
+  // Runs even with prefers-reduced-motion: the owner chose to always play the site's motion.
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
     const lenis = new Lenis({ anchors: true });
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);

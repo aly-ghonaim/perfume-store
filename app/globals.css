@@ -20,17 +20,42 @@
   --font-serif: var(--font-cormorant);
 }
 
-/* Light cream and bronze palette for the home page. Bronze is darkened from the reference so text passes AA on cream. */
-.theme-cream {
+/* Home page palette: creams, sand, deep plum and near-black, with bronze type. */
+.home {
   --background: #f9f2e9;
-  --surface: #f2e8da;
-  --line: #e0d1bc;
+  --surface: #f2efeb;
+  --line: #e2d6c6;
   --foreground: #3a2c1e;
-  --muted: #6b5640;
-  --gold: #8a6642;
+  --muted: #6b5038;
+  --gold: #997550;
+  --sand: #e7e1d7;
+  --plum: #592841;
+  --plum-2: #6e3352;
+  --ink: #0c0804;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-jost), system-ui, sans-serif;
+}
+.home .display {
+  font-family: var(--font-federo), serif;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+.home .label {
+  font-family: var(--font-syncopate), sans-serif;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+.home .script {
+  font-family: var(--font-script), cursive;
+}
+/* Brushed bronze fill for oversized headings. */
+.home .bronze {
+  background: linear-gradient(100deg, #a07a52 10%, #d4b08a 45%, #a07a52 80%);
+  background-clip: text;
+  color: transparent;
 }
 
 body {
@@ -50,12 +75,13 @@ body {
   .btn {
     @apply inline-flex items-center justify-center border border-gold bg-gold px-6 py-3 text-sm font-medium uppercase tracking-widest text-black transition hover:bg-transparent hover:text-gold disabled:opacity-50;
   }
-  /* Cream text on bronze; on hover the button empties and the text turns bronze. */
-  .theme-cream .btn {
-    color: var(--background);
-  }
-  .theme-cream .btn:hover {
-    color: var(--gold);
+  /* Outlined pill used on the home page, in wide caps. */
+  .btn-pill {
+    @apply inline-flex items-center justify-center rounded-full border px-10 py-4 transition hover:bg-current/10;
+    font-family: var(--font-syncopate), sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
   }
   .btn-ghost {
     @apply inline-flex items-center justify-center border border-line px-6 py-3 text-sm uppercase tracking-widest text-foreground transition hover:border-gold hover:text-gold;

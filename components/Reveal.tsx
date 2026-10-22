@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 // Fades and lifts content in once as it scrolls into view. Content is visible by default,
-// so it still shows if scripts fail or the user prefers reduced motion.
+// so it still shows if scripts fail.
 export default function Reveal({
   children,
   delay = 0,
@@ -22,18 +22,19 @@ export default function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const mm = gsap.matchMedia();
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.from(el, {
-        opacity: 0,
-        y: 24,
-        duration: 0.8,
-        delay,
-        ease: "expo.out",
-        scrollTrigger: { trigger: el, start: "top 88%", once: true },
-      });
+    // Plays even with prefers-reduced-motion: the owner chose to always play the site's motion.
+    const tween = gsap.from(el, {
+      opacity: 0,
+      y: 24,
+      duration: 0.8,
+      delay,
+      ease: "expo.out",
+      scrollTrigger: { trigger: el, start: "top 88%", once: true },
     });
-    return () => mm.revert();
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.revert();
+    };
   }, [delay]);
 
   return (
