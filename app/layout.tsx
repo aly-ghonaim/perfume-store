@@ -3,6 +3,7 @@ import { Geist, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import Header from "@/components/Header";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const cormorant = Cormorant_Garamond({
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${geistSans.variable} ${cormorant.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
+        <SmoothScroll />
         <StoreProvider>
           <Header />
           <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6">{children}</main>
