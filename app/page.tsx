@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import HomeMotion from "@/components/HomeMotion";
 import ProductImage from "@/components/ProductImage";
 import Reveal from "@/components/Reveal";
 import { products, type Product } from "@/lib/products";
@@ -31,6 +32,8 @@ const MAISON_CODE = [
   { title: "Ritual, not routine", body: "A few drops that turn an ordinary morning into a ceremony." },
 ];
 
+const PHILOSOPHY = "We believe a fragrance should be worn, not performed. It should stay close and stay long.";
+
 // Demo reviews written for this store; replace with real customer quotes.
 const REVIEWS = [
   { quote: "Noir Oud lasts from morning until late at night. People stop me to ask what I am wearing.", name: "N.A.", city: "Cairo" },
@@ -55,11 +58,13 @@ function Eyebrow({ children }: { children: ReactNode }) {
 export default function Home() {
   return (
     // Cream palette is scoped to the home page; -my-10 cancels main's padding so it runs edge to edge.
-    <div className="theme-cream -my-10 mx-[calc(50%-50vw)]">
-      <section className="relative overflow-hidden px-4 pt-16 pb-24 text-center sm:px-6">
+    <div data-home className="theme-cream -my-10 mx-[calc(50%-50vw)]">
+      <HomeMotion />
+      <section data-hero className="relative overflow-hidden px-4 pt-16 pb-24 text-center sm:px-6">
         <Eyebrow>Maison Aura · Fine fragrance</Eyebrow>
         <h1 className="mx-auto mt-6 max-w-[16ch] font-serif text-5xl leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-          Scent, composed like <em className="text-gold">music</em>
+          <span className="block overflow-hidden"><span data-hero-line className="block">Scent, composed</span></span>
+          <span className="block overflow-hidden"><span data-hero-line className="block">like <em className="text-gold">music</em></span></span>
         </h1>
 
         <div className="relative mx-auto mt-12 flex max-w-5xl items-end justify-center gap-6 md:gap-10">
@@ -68,14 +73,16 @@ export default function Home() {
             className="hidden h-64 w-40 md:block"
           />
           <div className="relative aspect-[3/4] w-full max-w-sm overflow-hidden rounded-t-full border border-line">
-            <Image
-              src={HERO_PHOTO}
-              alt="A clear glass perfume bottle catching gold light"
-              fill
-              priority
-              sizes="(min-width: 768px) 384px, 100vw"
-              className="object-cover"
-            />
+            <div data-hero-img className="absolute inset-0">
+              <Image
+                src={HERO_PHOTO}
+                alt="A clear glass perfume bottle catching gold light"
+                fill
+                priority
+                sizes="(min-width: 768px) 384px, 100vw"
+                className="object-cover"
+              />
+            </div>
           </div>
           <ProductImage
             product={products[9]}
@@ -105,31 +112,45 @@ export default function Home() {
         </div>
       </section>
 
-      <Reveal className="px-4 py-28 text-center sm:px-6">
-        <Eyebrow>Our philosophy</Eyebrow>
-        <p className="mx-auto mt-8 max-w-[28ch] font-serif text-3xl leading-snug sm:text-5xl">
-          We believe a fragrance should be worn, not performed. It should stay close and stay long.
-        </p>
-        <p className="mt-8 font-serif text-2xl italic text-gold">Maison Aura</p>
-      </Reveal>
+      <section data-philosophy className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-foreground px-4 text-center text-background sm:px-6">
+        {/* Gold-ribbed side panels that part on scroll, a nod to stage curtains. */}
+        {(["left", "right"] as const).map((side) => (
+          <div
+            key={side}
+            data-curtain={side}
+            aria-hidden
+            className={`absolute inset-y-0 w-1/4 bg-[repeating-linear-gradient(90deg,var(--gold)_0_2px,transparent_2px_22px)] opacity-40 ${side === "left" ? "left-0" : "right-0"}`}
+          />
+        ))}
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.3em] text-background/70">Our philosophy</p>
+          <p className="mx-auto mt-8 max-w-[24ch] font-serif text-3xl leading-snug sm:text-5xl">
+            {PHILOSOPHY.split(" ").map((w, i) => (
+              <span key={i} data-word>{w} </span>
+            ))}
+          </p>
+          <p className="mt-8 font-serif text-2xl italic text-background/80">Maison Aura</p>
+        </div>
+      </section>
 
-      <section className="grid items-center gap-10 bg-surface px-4 py-24 sm:px-6 md:grid-cols-3">
+      <section data-mission className="grid min-h-dvh items-center gap-10 overflow-hidden bg-surface px-4 py-24 sm:px-6 md:grid-cols-3">
         {[products[6], products[4]].map((p, i) => (
           <div
             key={p.id}
+            data-from={i === 0 ? "left" : "right"}
             style={{ background: `color-mix(in oklab, ${p.color} 25%, var(--surface))` }}
             className={`mx-auto flex aspect-[3/4] w-full max-w-xs items-center justify-center rounded-t-full ${i === 0 ? "md:order-1" : "md:order-3"}`}
           >
             <ProductImage product={p} className="h-1/2 w-1/2" />
           </div>
         ))}
-        <Reveal className="text-center md:order-2">
+        <div data-mission-text className="text-center md:order-2">
           <Eyebrow>Mission</Eyebrow>
           <p className="mt-6 font-serif text-3xl leading-snug sm:text-4xl">
             Made outside convention.<br />
             <span className="text-gold">Blended to outlast it.</span>
           </p>
-        </Reveal>
+        </div>
       </section>
 
       <section className="px-4 py-24 sm:px-6">
@@ -170,6 +191,30 @@ export default function Home() {
         </div>
       </section>
 
+      <section data-collection className="flex min-h-dvh flex-col justify-center gap-10 overflow-hidden bg-foreground py-24 text-background">
+        <div className="px-4 text-center sm:px-6">
+          <p className="text-xs uppercase tracking-[0.3em] text-background/70">The full collection</p>
+          <h2 className="mt-4 font-serif text-4xl sm:text-5xl">Twelve signatures</h2>
+        </div>
+        {/* Scrollable row by default; HomeMotion turns it into a pinned sideways pan. */}
+        <div data-rail className="overflow-x-auto">
+          <div data-track className="flex w-max gap-6 px-4 sm:px-6">
+            {products.map((p) => (
+              <Link
+                key={p.id}
+                href={`/product/${p.slug}`}
+                style={{ background: `color-mix(in oklab, ${p.color} 30%, #2a2018)` }}
+                className="group flex w-60 shrink-0 flex-col items-center rounded-t-full px-6 pt-16 pb-8 transition hover:-translate-y-1"
+              >
+                <ProductImage product={p} className="h-48 w-28" sizes="112px" />
+                <h3 className="mt-6 font-serif text-2xl">{p.name}</h3>
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-background/70">{p.family}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-surface px-4 py-24 sm:px-6">
         <div className="mx-auto max-w-6xl text-center">
           <h2 className="font-serif text-4xl sm:text-5xl">Explore our scent families</h2>
@@ -189,17 +234,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 py-24 sm:px-6">
+      <section data-reviews className="bg-foreground px-4 py-28 text-background sm:px-6">
         <div className="mx-auto max-w-6xl text-center">
-          <Eyebrow>What our clients say</Eyebrow>
+          <p className="text-xs uppercase tracking-[0.3em] text-background/70">What our clients say</p>
           <h2 className="mt-4 font-serif text-4xl sm:text-5xl">Words that stayed with us</h2>
           <Divider />
           <div className="mt-8 grid gap-10 md:grid-cols-3">
             {REVIEWS.map((r, i) => (
               <Reveal key={r.name} delay={i * 0.08}>
-                <figure className="flex h-full flex-col justify-between border-t border-line pt-8">
+                <figure className="flex h-full flex-col justify-between border-t border-background/20 pt-8">
                   <blockquote className="font-serif text-xl leading-relaxed">“{r.quote}”</blockquote>
-                  <figcaption className="mt-6 text-xs uppercase tracking-[0.3em] text-muted">
+                  <figcaption className="mt-6 text-xs uppercase tracking-[0.3em] text-background/70">
                     {r.name} · {r.city}
                   </figcaption>
                 </figure>
