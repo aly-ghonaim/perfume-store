@@ -78,7 +78,7 @@ export default function Home() {
                       <h3 className={`font-serif ${featured ? "text-4xl" : "text-2xl"}`}>{p.name}</h3>
                       <p className="text-sm text-muted">{p.family}, {p.sizeMl} ml</p>
                     </div>
-                    <p className="text-gold">{formatPrice(p.price)}</p>
+                    <p className="shrink-0 text-gold">{formatPrice(p.price)}</p>
                   </div>
                 </Link>
               </Reveal>

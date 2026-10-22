@@ -27,4 +27,5 @@ export const products: Product[] = [
 
 export const getProduct = (id: string) => products.find((p) => p.id === id);
 export const getBySlug = (slug: string) => products.find((p) => p.slug === slug);
-export const formatPrice = (n: number) => `E£ ${n.toLocaleString("en-US")}`;
+// Non-breaking space keeps "E£" and the amount on one line.
+export const formatPrice = (n: number) => `E£ ${n.toLocaleString("en-US")}`;

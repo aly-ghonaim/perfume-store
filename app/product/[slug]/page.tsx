@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Bottle from "@/components/Bottle";
 import { AddToCartButton, WishlistButton } from "@/components/ProductActions";
@@ -5,8 +6,16 @@ import { formatPrice, getBySlug, products } from "@/lib/products";
 
 export const generateStaticParams = () => products.map((p) => ({ slug: p.slug }));
 
-export default async function ProductPage(props: PageProps<"/product/[slug]">) {
-  const { slug } = await props.params;
+export default function ProductPage(props: PageProps<"/product/[slug]">) {
+  return (
+    <Suspense>
+      <ProductDetails params={props.params} />
+    </Suspense>
+  );
+}
+
+async function ProductDetails({ params }: { params: PageProps<"/product/[slug]">["params"] }) {
+  const { slug } = await params;
   const p = getBySlug(slug);
   if (!p) notFound();
 
