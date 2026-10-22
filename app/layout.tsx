@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Cormorant_Garamond } from "next/font/google";
+import { Geist, Cormorant_Garamond, Jost } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import Header from "@/components/Header";
@@ -11,6 +11,8 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
+// Geometric sans for the home page's cream theme.
+const jost = Jost({ variable: "--font-jost", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Maison Aura | Fine Fragrance",
@@ -19,7 +21,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${cormorant.variable} h-full antialiased`}>
+    <html lang="en" className={`${geistSans.variable} ${cormorant.variable} ${jost.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <SmoothScroll />
         <StoreProvider>
