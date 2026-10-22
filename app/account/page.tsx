@@ -1,6 +1,7 @@
 "use client";
 
-import { formatPrice } from "@/lib/products";
+import ProductImage from "@/components/ProductImage";
+import { formatPrice, getProduct } from "@/lib/products";
 import { useRequireUser, useStore } from "@/lib/store";
 
 export default function Account() {
@@ -24,7 +25,15 @@ export default function Account() {
                 <time dateTime={o.date} className="text-sm text-muted">{new Date(o.date).toLocaleDateString("en-GB")}</time>
               </div>
               <ul className="mt-3 text-sm">
-                {o.lines.map((l) => <li key={l.id}>{l.name} × {l.qty}</li>)}
+                {o.lines.map((l) => {
+                  const p = getProduct(l.id);
+                  return (
+                    <li key={l.id} className="flex items-center gap-3 py-1">
+                      {p && <ProductImage product={p} className="h-12 w-12 shrink-0" sizes="48px" />}
+                      {l.name} × {l.qty}
+                    </li>
+                  );
+                })}
               </ul>
               <p className="mt-3 text-sm text-muted">Ship to: {o.address}</p>
               <p className="mt-2">{formatPrice(o.total)}</p>

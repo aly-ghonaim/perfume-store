@@ -1,7 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
-import Bottle from "@/components/Bottle";
+import ProductImage from "@/components/ProductImage";
 import Reveal from "@/components/Reveal";
-import { formatPrice, getBySlug, products, type Product } from "@/lib/products";
+import { formatPrice, products, type Product } from "@/lib/products";
 
 const bestsellers = products.slice(0, 5);
 
@@ -17,11 +18,8 @@ const families = Object.entries(
   notes: [...new Set(items.flatMap((p) => p.notes))].slice(0, 4).join(", "),
 }));
 
-const heroBottles = [
-  { slug: "rose-absolue", box: "bottom-8 left-[4%] h-[52%]", delay: 0.25 },
-  { slug: "golden-saffron", box: "inset-x-0 bottom-0 mx-auto w-fit h-[86%]", delay: 0.1 },
-  { slug: "velvet-iris", box: "bottom-14 right-[4%] h-[60%]", delay: 0.4 },
-];
+// Unbranded demo photo (Unsplash). Replace with the shop's own hero shot.
+const HERO_PHOTO = "https://images.unsplash.com/photo-1703681036028-b4dbb8811230";
 
 export default function Home() {
   return (
@@ -39,15 +37,15 @@ export default function Home() {
             <a href="#bestsellers" className="btn-ghost">See bestsellers</a>
           </div>
         </div>
-        <div className="relative h-[22rem] bg-[radial-gradient(ellipse_at_50%_75%,rgb(201_164_92/0.14),transparent_65%)] sm:h-[28rem] md:col-span-6 md:h-[34rem]">
-          {heroBottles.map(({ slug, box, delay }) => {
-            const p = getBySlug(slug)!;
-            return (
-              <Reveal key={slug} delay={delay} className={`absolute ${box}`}>
-                <Bottle color={p.color} className="h-full" />
-              </Reveal>
-            );
-          })}
+        <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden border border-line md:col-span-5 md:col-start-8 md:max-w-none">
+          <Image
+            src={HERO_PHOTO}
+            alt="A clear glass perfume bottle catching gold light against black"
+            fill
+            priority
+            sizes="(min-width: 768px) 40vw, 384px"
+            className="object-cover"
+          />
         </div>
       </section>
 
@@ -67,10 +65,12 @@ export default function Home() {
                   style={{ background: `color-mix(in oklab, ${p.color} 22%, var(--surface))` }}
                   className="group flex h-full min-h-72 flex-col justify-between border border-line p-6 transition hover:border-gold active:scale-[0.99]"
                 >
-                  <div className="flex flex-1 items-center justify-center py-4">
-                    <Bottle
-                      color={p.color}
-                      className={`${featured ? "h-64 md:h-96" : "h-32"} transition-transform duration-500 group-hover:-translate-y-2 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0`}
+                  {/* Soft spotlight so dark bottles (Noir Oud) separate from their tinted tile. */}
+                  <div className="flex flex-1 items-center justify-center bg-[radial-gradient(circle_at_50%_55%,rgb(236_230_218/0.09),transparent_62%)] py-4">
+                    <ProductImage
+                      product={p}
+                      sizes={featured ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 25vw, 50vw"}
+                      className={`${featured ? "h-64 w-full md:h-96" : "h-40 w-full"} transition-transform duration-500 group-hover:-translate-y-2 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0`}
                     />
                   </div>
                   <div className="flex items-end justify-between gap-4">

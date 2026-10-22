@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Bottle from "@/components/Bottle";
+import ProductImage from "@/components/ProductImage";
 import { formatPrice, getProduct } from "@/lib/products";
 import { useStore } from "@/lib/store";
 
@@ -30,7 +30,7 @@ export default function Cart() {
       <ul className="divide-y divide-line border-y border-line">
         {lines.map(({ p, qty }) => (
           <li key={p.id} className="flex flex-wrap items-center gap-4 py-5">
-            <Bottle color={p.color} className="h-20 w-14" />
+            <ProductImage product={p} className="h-16 w-16 shrink-0" sizes="64px" />
             <div className="min-w-40 flex-1">
               <Link href={`/product/${p.slug}`} className="font-serif text-2xl hover:text-gold">{p.name}</Link>
               <p className="text-sm text-muted">{p.sizeMl} ml · {formatPrice(p.price)}</p>

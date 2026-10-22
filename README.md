@@ -1,5 +1,11 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Product photos
+
+- Each product in `lib/products.ts` takes an optional `image: { src, alt }`. Without one (or if it fails to load) the product shows an SVG bottle in its `color` and `shape`.
+- The home hero photo (`HERO_PHOTO` in `app/page.tsx`) is an unbranded Unsplash demo image. Replace it, and use your own product photography, before going live.
+- Photos hosted somewhere other than `images.unsplash.com` need their host added to `images.remotePatterns` in `next.config.ts`.
+
 ## Getting Started
 
 First, run the development server:

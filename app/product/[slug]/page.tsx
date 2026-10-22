@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
-import Bottle from "@/components/Bottle";
+import ProductImage from "@/components/ProductImage";
 import { AddToCartButton, WishlistButton } from "@/components/ProductActions";
 import { formatPrice, getBySlug, products } from "@/lib/products";
 
@@ -22,7 +22,7 @@ async function ProductDetails({ params }: { params: PageProps<"/product/[slug]">
   return (
     <div className="grid gap-10 md:grid-cols-2">
       <div className="flex items-center justify-center border border-line bg-surface py-12">
-        <Bottle color={p.color} className="h-80" />
+        <ProductImage product={p} className="h-80 w-full" sizes="(min-width: 768px) 50vw, 100vw" priority />
       </div>
       <div>
         <p className="text-sm uppercase tracking-[0.3em] text-muted">{p.family}</p>
