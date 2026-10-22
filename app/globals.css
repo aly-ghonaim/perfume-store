@@ -1,26 +1,44 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0b0a09;
+  --surface: #151311;
+  --line: #2a2622;
+  --foreground: #ece6da;
+  --muted: #a39b8f;
+  --gold: #c9a45c;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-gold: var(--gold);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-serif: var(--font-cormorant);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center border border-gold bg-gold px-6 py-3 text-sm font-medium uppercase tracking-widest text-black transition hover:bg-transparent hover:text-gold disabled:opacity-50;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center border border-line px-6 py-3 text-sm uppercase tracking-widest text-foreground transition hover:border-gold hover:text-gold;
+  }
+  .input {
+    @apply w-full border border-line bg-surface px-4 py-3 text-foreground placeholder:text-muted focus:border-gold;
+  }
 }
